@@ -25,19 +25,22 @@ public class TarefaListRepository implements TarefaRepository {
 	}
 
 	public Optional<TarefaModel> pesquisarTarefasPorId(int id) {
-		return tarefas.stream()
+		return pesquisarTarefas()
+				.stream()
 				.filter(t -> t.getId() == id)
 				.findFirst();
 	}
 
 	public List<TarefaModel> pesquisarTarefasPorPrioridade(int prioridade) {
-		return tarefas.stream()
+		return pesquisarTarefas()
+				.stream()
 				.filter(t -> t.getPrioridade() == prioridade)
 				.collect(Collectors.toList());
 	}
 	
 	public List<TarefaModel> pesquisarTarefasPorFinalizada(boolean finalizada) {
-		return tarefas.stream()
+		return pesquisarTarefas()
+				.stream()
 				.filter(t -> t.isFinalizada() == finalizada)
 				.collect(Collectors.toList());
 	}

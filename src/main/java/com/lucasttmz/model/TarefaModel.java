@@ -1,13 +1,20 @@
 package com.lucasttmz.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class TarefaModel {
+public class TarefaModel implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private String nome;
 	private String descricao;
 	private int prioridade;
 	private boolean finalizada;
+	
+	public TarefaModel() {
+		
+	}
 	
 	public TarefaModel(String nome, String descricao, int prioridade, boolean finalizada) {
 		this.nome = nome;

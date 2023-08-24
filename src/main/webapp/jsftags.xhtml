@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+	<meta charset="UTF-8"/>
+	<title>Página Inicial</title>
+	<h:outputStylesheet library="static" name="style.css"/>
+</h:head>
+
+<h:body>
+	<header>Lista de Tarefas</header>
+	<div id="adicionar">
+		<h:form>
+			<h:panelGrid columns="2">
+				<h:outputLabel value="Título: " for="nomeTarefa"/>
+				<h:inputText id="nomeTarefa" value="#{tarefaBean.nome}"/>
+				
+				<h:outputLabel value="Descrição: " for="descTarefa"/>
+				<h:inputText id="descTarefa" value="#{tarefaBean.descricao}"/>
+				
+				<h:outputLabel value="Prioridade: " for="prioTarefa"/>
+				<h:selectOneMenu id="prioTarefa" value="#{tarefaBean.prioridade}">
+					<f:selectItem itemLabel="Selecione"/>
+					<f:selectItems value="#{tarefaBean.listaPrioridades}" 
+						var="prioridade" itemValue="#{prioridade}"/>
+				</h:selectOneMenu>
+				
+				<h:outputLabel />
+				<h:commandButton value="Salvar" actionListener="${tarefaBean.salvar}"/>
+			</h:panelGrid>
+			
+			
+		</h:form>
+	</div>
+	
+	<div id="listar">
+		<h:dataTable>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Título"/>
+				</f:facet>
+					
+				<h:outputText value="Estudar"/>
+			</h:column>
+				
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Descrição"/>
+				</f:facet>
+					
+				<h:outputText value="Estudar inglês"/>
+			</h:column>
+				
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Prioridade"/>
+				</f:facet>
+					
+				<h:outputText value="3"/>
+			</h:column>
+		</h:dataTable>
+	</div>
+</h:body>
+
+</html>

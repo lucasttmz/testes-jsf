@@ -4,44 +4,70 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
 	<meta charset="UTF-8"/>
-	<title>Página Inicial</title>
-	<h:outputStylesheet library="static" name="style.css"/>
+	<title>Tarefas JSF</title>
+	<h:outputStylesheet library="css" name="style.css"/>
+	
+	<f:metadata>
+		<f:viewAction action="#{tarefaBean.todasTarefas}" />
+	</f:metadata>
 </h:head>
 
 <h:body>
-	<header>Lista de Tarefas</header>
+	<h1>Adicionar Tarefas</h1>
 	<div id="adicionar">
-		<h:form>
+		<h:form id="formAdicionar">
 			<h:panelGrid columns="2">
 				<h:outputLabel value="Título: " for="nomeTarefa"/>
-				<h:inputText id="nomeTarefa" value="#{tarefaBean.nome}"/>
+				<h:panelGroup>
+					<h:inputText id="nomeTarefa" value="#{tarefaBean.nome}" 
+						label="Título" required="true">
+						<f:validateLength minimum="3" maximum="15" />
+					</h:inputText>
+					<h:message for="nomeTarefa" />
+				</h:panelGroup>
 				
 				<h:outputLabel value="Descrição: " for="descTarefa"/>
-				<h:inputText id="descTarefa" value="#{tarefaBean.descricao}"/>
+				<h:panelGroup>
+					<h:inputText id="descTarefa" value="#{tarefaBean.descricao}" 
+						label="Descrição">
+						<f:validateLength maximum="30" />
+					</h:inputText>
+					<h:message for="descTarefa" />
+				</h:panelGroup>
 				
 				<h:outputLabel value="Prioridade: " for="prioTarefa"/>
-				<h:selectOneMenu id="prioTarefa" value="#{tarefaBean.prioridade}">
-					<f:selectItem itemLabel="Selecione"/>
-					<f:selectItems value="#{tarefaBean.listaPrioridades}" 
-						var="prioridade" itemValue="#{prioridade}"/>
-				</h:selectOneMenu>
+				<h:panelGroup>
+					<h:selectOneMenu id="prioTarefa" value="#{tarefaBean.prioridade}"
+						label="Prioridade" required="true">
+						<f:selectItem itemLabel="Selecione"/>
+						<f:selectItems value="#{tarefaBean.listaPrioridades}" 
+							var="prioridade" itemValue="#{prioridade}"/>
+					</h:selectOneMenu>
+					<h:message for="prioTarefa" />
+				</h:panelGroup>
 				
-				<h:outputLabel />
-				<h:commandButton value="Salvar" actionListener="${tarefaBean.salvar}"/>
+				<h:outputLabel/>
+				<h:commandButton value="Salvar" actionListener="${tarefaBean.salvar}">
+					<f:ajax execute="@all" 
+						render="@all"/>
+				</h:commandButton>
+				
 			</h:panelGrid>
 			
 			
 		</h:form>
 	</div>
 	
+	<h1>Lista de Tarefas</h1>
 	<div id="listar">
-		<h:dataTable>
+		<h:dataTable value="#{tarefaBean.listaTarefas}" 
+			var="tarefa" id="tableTarefas">
 			<h:column>
 				<f:facet name="header">
 					<h:outputText value="Título"/>
 				</f:facet>
 					
-				<h:outputText value="Estudar"/>
+				<h:outputText value="#{tarefa.nome}"/>
 			</h:column>
 				
 			<h:column>
@@ -49,7 +75,7 @@
 					<h:outputText value="Descrição"/>
 				</f:facet>
 					
-				<h:outputText value="Estudar inglês"/>
+				<h:outputText value="#{tarefa.descricao}"/>
 			</h:column>
 				
 			<h:column>
@@ -57,7 +83,19 @@
 					<h:outputText value="Prioridade"/>
 				</f:facet>
 					
-				<h:outputText value="3"/>
+				<h:outputText value="#{tarefa.prioridade}"/>
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Opções"/>
+				</f:facet>
+				<h:form>
+					<h:commandButton value="Editar"/>
+					<h:commandButton value="Excluir" actionListener="${tarefaBean.excluir(tarefa.id)}">
+						<f:ajax render="@all"/>
+					</h:commandButton>
+				</h:form>
 			</h:column>
 		</h:dataTable>
 	</div>

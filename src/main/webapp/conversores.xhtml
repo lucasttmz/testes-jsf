@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+	<meta charset="UTF-8"/>
+	<title>Final</title>
+</h:head>
+
+<h:body>
+	<h1>Conversores</h1>
+	<h:form>
+		<h:panelGrid columns="2">
+			<h:outputLabel value="Data formato String: " for="dataString"/>
+			<h:panelGroup>
+				<h:inputText id="dataString" value="#{estacaoBean.data}"
+					label="Data" required="true">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</h:inputText>
+				<h:message for="dataString" />
+			</h:panelGroup>
+			
+			<h:outputLabel value="Temperatura: " for="temp"/>
+			<h:panelGroup>
+				<h:inputText id="temp" value="#{estacaoBean.temperatura}"
+					label="Temperatura" required="true">
+					<f:convertNumber type="number"/>
+				</h:inputText>
+				<h:message for="temp" />
+			</h:panelGroup>
+			
+			<h:outputLabel value="Humidade: " for="humi"/>
+			<h:panelGroup>
+				<h:inputText id="humi" value="#{estacaoBean.humidade}"
+					label="Humidade" required="true">
+					<f:convertNumber type="number"/>
+				</h:inputText>
+				<h:message for="humi" />
+			</h:panelGroup>
+			
+			<h:outputLabel value="Chuva: " for="chuva"/>
+			<h:selectBooleanCheckbox id="chuva" value="#{estacaoBean.chuva}"/>
+			
+			<h:commandLink value="Voltar" action="index?faces-redirect=true"/>
+			<h:commandButton value="Mostrar" actionListener="${estacaoBean.mostrar}"/>
+		</h:panelGrid>
+	</h:form>
+	
+</h:body>
+
+</html>

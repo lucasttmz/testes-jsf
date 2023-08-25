@@ -13,6 +13,8 @@ public class TarefaListRepository implements TarefaRepository {
 
 	public TarefaListRepository() {
 		tarefas = new ArrayList<TarefaModel>();
+		adicionarTarefa(new TarefaModel("Tarefa Inicial", "Descrição qualquer", 1, false));
+		adicionarTarefa(new TarefaModel("Tarefa Inicial", "Descrição qualquer", 1, false));
 	}
 
 	public void adicionarTarefa(TarefaModel tarefa) {

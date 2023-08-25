@@ -47,7 +47,7 @@
 				</h:panelGroup>
 				
 				<h:outputLabel/>
-				<h:commandButton value="Salvar" actionListener="${tarefaBean.salvar}">
+				<h:commandButton type="button" value="Salvar" actionListener="${tarefaBean.salvar}">
 					<f:ajax execute="@all" 
 						render="@all"/>
 				</h:commandButton>
@@ -90,10 +90,10 @@
 				<f:facet name="header">
 					<h:outputText value="Opções"/>
 				</f:facet>
-				<h:form>
-					<h:commandButton value="Editar"/>
-					<h:commandButton value="Excluir" actionListener="${tarefaBean.excluir(tarefa.id)}">
-						<f:ajax render="@all"/>
+				<h:form id="formLista">
+					<h:commandButton type="button" value="Editar"/>
+					<h:commandButton type="button" value="Excluir" actionListener="${tarefaBean.excluir(tarefa.id)}">
+						<f:ajax render="tableTarefas"/>
 					</h:commandButton>
 				</h:form>
 			</h:column>

@@ -34,6 +34,10 @@ public class TarefaBean implements Serializable {
 	
 	public void salvar() {
 		controle.adicionarTarefa(List.of(nome, descricao, String.valueOf(prioridade), String.valueOf(finalizada)));
+		this.nome = null;
+		this.descricao = null;
+		this.prioridade = 0;
+		this.finalizada = false;
 	}
 	
 	public void excluir(String id) {

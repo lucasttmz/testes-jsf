@@ -13,92 +13,141 @@
 </h:head>
 
 <h:body>
-	<h1>Adicionar Tarefas</h1>
-	<div id="adicionar">
-		<h:form id="formAdicionar">
-			<h:panelGrid columns="2">
-				<h:outputLabel value="Título: " for="nomeTarefa"/>
-				<h:panelGroup>
-					<h:inputText id="nomeTarefa" value="#{tarefaBean.nome}" 
-						label="Título" required="true">
-						<f:validateLength minimum="3" maximum="15" />
-					</h:inputText>
-					<h:message for="nomeTarefa" />
-				</h:panelGroup>
+	<div id="ctn">
+		<div id="adicionar">
+			<h1>Adicionar Tarefas</h1>
+			<h:form id="formAdicionar">
+				<h:panelGrid columns="2">
+					<h:outputLabel value="Título: " for="nomeTarefa"/>
+					<h:panelGroup>
+						<h:inputText id="nomeTarefa" value="#{tarefaBean.nome}" 
+							label="Título" required="true">
+							<f:validateLength minimum="3" maximum="15" />
+						</h:inputText>
+						<h:message for="nomeTarefa" />
+					</h:panelGroup>
 				
-				<h:outputLabel value="Descrição: " for="descTarefa"/>
-				<h:panelGroup>
-					<h:inputText id="descTarefa" value="#{tarefaBean.descricao}" 
-						label="Descrição">
-						<f:validateLength maximum="30" />
-					</h:inputText>
-					<h:message for="descTarefa" />
-				</h:panelGroup>
+					<h:outputLabel value="Descrição: " for="descTarefa"/>
+					<h:panelGroup>
+						<h:inputText id="descTarefa" value="#{tarefaBean.descricao}" 
+							label="Descrição">
+							<f:validateLength maximum="30" />
+						</h:inputText>
+						<h:message for="descTarefa" />
+					</h:panelGroup>
 				
-				<h:outputLabel value="Prioridade: " for="prioTarefa"/>
-				<h:panelGroup>
-					<h:selectOneMenu id="prioTarefa" value="#{tarefaBean.prioridade}"
-						label="Prioridade" required="true">
-						<f:selectItem itemLabel="Selecione"/>
-						<f:selectItems value="#{tarefaBean.listaPrioridades}" 
-							var="prioridade" itemValue="#{prioridade}"/>
-					</h:selectOneMenu>
-					<h:message for="prioTarefa" />
-				</h:panelGroup>
+					<h:outputLabel value="Prioridade: " for="prioTarefa"/>
+					<h:panelGroup>
+						<h:selectOneMenu id="prioTarefa" value="#{tarefaBean.prioridade}"
+							label="Prioridade" required="true">
+							<f:selectItem itemLabel="Selecione"/>
+							<f:selectItems value="#{tarefaBean.listaPrioridades}" 
+								var="prioridade" itemValue="#{prioridade}"/>
+						</h:selectOneMenu>
+						<h:message for="prioTarefa" />
+					</h:panelGroup>
 				
-				<h:outputLabel/>
-				<h:commandButton type="button" value="Salvar" actionListener="${tarefaBean.salvar}">
-					<f:ajax execute="@all" 
-						render="@all"/>
-				</h:commandButton>
+					<h:outputLabel/>
+					<h:commandButton type="button" value="Salvar" actionListener="#{tarefaBean.salvar}">
+						<f:ajax execute="@all" 
+							render="formAdicionar tableTarefas"/>
+					</h:commandButton>
+				</h:panelGrid>
+			</h:form>
+		</div>
+		<div id="listar">
+			<h1>Lista de Tarefas</h1>
+			<h:dataTable value="#{tarefaBean.listaTarefas}" 
+				var="tarefa" id="tableTarefas">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Título"/>
+					</f:facet>
+						
+					<h:outputText value="#{tarefa.nome}"/>
+				</h:column>
+					
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Descrição"/>
+					</f:facet>
+						
+					<h:outputText value="#{tarefa.descricao}"/>
+				</h:column>
+					
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Prioridade"/>
+					</f:facet>
+						
+					<h:outputText value="#{tarefa.prioridade}"/>
+				</h:column>
 				
-			</h:panelGrid>
-			
-			
-		</h:form>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Opções"/>
+					</f:facet>
+					<h:form id="formLista">
+						<h:commandButton type="button" value="Editar" onclick="mostrarEsconderEdicao()"/>
+						<h:commandButton type="button" value="Excluir" actionListener="#{tarefaBean.excluir(tarefa.id)}">
+							<f:ajax execute="@this" render="formLista tableTarefas"/>
+						</h:commandButton>
+					</h:form>
+				</h:column>
+			</h:dataTable>
+		</div>
+		<div id="edicaoTarefas" style="display:none">
+			<h1>Editar Tarefa</h1>
+			<h:form id="formEditar">
+				<h:panelGrid columns="2">
+					<h:outputLabel value="Título: " for="editarNome"/>
+					<h:panelGroup>
+						<h:inputText id="editarNome" value="#{tarefaBean.nome}" 
+							label="Título" required="true">
+							<f:validateLength minimum="3" maximum="15" />
+						</h:inputText>
+						<h:message for="editarNome" />
+					</h:panelGroup>
+					
+					<h:outputLabel value="Descrição: " for="editarDesc"/>
+					<h:panelGroup>
+						<h:inputText id="editarDesc" value="#{tarefaBean.descricao}" 
+							label="Descrição">
+							<f:validateLength maximum="30" />
+						</h:inputText>
+						<h:message for="editarDesc" />
+					</h:panelGroup>
+					
+					<h:outputLabel value="Prioridade: " for="editarPrio"/>
+					<h:panelGroup>
+						<h:selectOneMenu id="editarPrio" value="#{tarefaBean.prioridade}"
+							label="Prioridade" required="true">
+							<f:selectItem itemLabel="Selecione"/>
+							<f:selectItems value="#{tarefaBean.listaPrioridades}" 
+								var="eprioridade" itemValue="#{eprioridade}"/>
+						</h:selectOneMenu>
+						<h:message for="editarPrio" />
+					</h:panelGroup>
+					
+					<h:outputLabel/>
+					<h:commandButton type="button" value="Salvar Alterações" actionListener="#{tarefaBean.editar}">
+						<f:ajax execute="@all" 
+							render="tableTarefas"/>
+					</h:commandButton>
+				</h:panelGrid>		
+			</h:form>
+		</div>
 	</div>
 	
-	<h1>Lista de Tarefas</h1>
-	<div id="listar">
-		<h:dataTable value="#{tarefaBean.listaTarefas}" 
-			var="tarefa" id="tableTarefas">
-			<h:column>
-				<f:facet name="header">
-					<h:outputText value="Título"/>
-				</f:facet>
-					
-				<h:outputText value="#{tarefa.nome}"/>
-			</h:column>
-				
-			<h:column>
-				<f:facet name="header">
-					<h:outputText value="Descrição"/>
-				</f:facet>
-					
-				<h:outputText value="#{tarefa.descricao}"/>
-			</h:column>
-				
-			<h:column>
-				<f:facet name="header">
-					<h:outputText value="Prioridade"/>
-				</f:facet>
-					
-				<h:outputText value="#{tarefa.prioridade}"/>
-			</h:column>
-			
-			<h:column>
-				<f:facet name="header">
-					<h:outputText value="Opções"/>
-				</f:facet>
-				<h:form id="formLista">
-					<h:commandButton type="button" value="Editar"/>
-					<h:commandButton type="button" value="Excluir" actionListener="${tarefaBean.excluir(tarefa.id)}">
-						<f:ajax render="tableTarefas"/>
-					</h:commandButton>
-				</h:form>
-			</h:column>
-		</h:dataTable>
-	</div>
 </h:body>
+<script>
+	let mostrado = false;
+	const edicao = document.querySelector("#edicaoTarefas");
+	
+	function mostrarEsconderEdicao() {
+		mostrado = !mostrado;
+		edicao.setAttribute("style", mostrado ? "display:block" : "display:none");
+	}
+</script>
 
 </html>

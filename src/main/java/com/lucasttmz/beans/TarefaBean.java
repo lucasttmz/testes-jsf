@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.view.ViewScoped;
 
 import com.lucasttmz.controller.TarefaController;
 import com.lucasttmz.model.TarefaModel;
@@ -42,6 +41,10 @@ public class TarefaBean implements Serializable {
 	
 	public void excluir(String id) {
 		controle.apagarTarefa(id);
+	}
+	
+	public void editar(String id) {
+		
 	}
 
 	public String index() {

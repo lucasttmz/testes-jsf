@@ -1,15 +1,87 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core">
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf">
 <h:head>
 	<meta charset="UTF-8"/>
 	<title>Final</title>
-	<h:outputStylesheet library="css" name="style.css"/>
+	<style>
+		p {
+			margin: 10px;
+			font-size: 1.6em;
+			border-bottom: 1px solid #ddd;
+		}
+		table {
+			width: 100%;
+		}
+		td {
+			padding: 5px;
+			text-align: left;
+			width: 50%;
+			border: 1px solid #ddd;
+		}
+		tr:nth-child(even) {
+		  	background-color: #f2f2f2;
+		}
+		.grande {
+			font-size: 1.5em;
+		}
+		.escondido {
+			opacity: 0.3;
+		}
+	</style>
 </h:head>
 
-<h:body>
-	<h1>Protótipo</h1>
-</h:body>
+<h:body>	
+	<p>Selecionar a data</p>
+	<h:form>
+		<h:panelGrid columns="2">
+			<h:outputText value="Entrada" styleClass="grande"/>
+			<h:outputText value="Resposta do Servidor" styleClass="grande"/>
+			<h:panelGroup>
+				<label for="dia">Selecione uma data: </label>
+				<input jsf:id="dia" id="dia" type="date" min="2023-08-25" jsf:value="#{estacaoBean.data}">
+					<f:convertDateTime pattern="yyyy-MM-dd" />
+					<f:ajax event="change" execute="dia" render="selecionada"/>
+				</input>
+			</h:panelGroup>
+			<h:outputText id="selecionada" value="#{estacaoBean.data}"/>
 
+			<h:commandButton value="Carregar datas disponíveis" actionListener="#{estacaoBean.carregarDatas}">
+				<f:ajax render="registros"/>
+			</h:commandButton>
+			<h:outputText id="registros" value="#{estacaoBean.datasComRegistros}"/>
+		</h:panelGrid>
+	</h:form>
+	<p>Pooling no backend</p>
+	<h:panelGrid columns="2" id="medidas">
+		<h:outputText value="Dados retornados a cada 7 segundos"/>
+		<h:outputText value="Humidade: #{estacaoBean.humidade}"/>
+		
+		<h:outputText />
+		<h:outputText value="Temperatura: #{estacaoBean.temperatura}"/>
+		
+		<h:form id="escondido">
+			<h:commandButton styleClass="escondido" value="Botão Invisível" actionListener="#{estacaoBean.atualizarMedidas}">
+				<f:ajax render="medidas" />
+			</h:commandButton>
+		</h:form>
+		<h:outputText value="Chuva: #{estacaoBean.chuva}"/>
+		
+	</h:panelGrid>
+
+</h:body>
+<script>
+    const dia = document.querySelector("#dia");
+    const botao = document.querySelector(".escondido");
+    
+    const [d, m, y] = new Date().toLocaleDateString().split("/");
+   	dia.setAttribute('max', y+'-'+m+'-'+d);
+    
+   	botao.click();
+    setInterval(() => {
+		botao.click();
+	}, 7500);
+</script>
 </html>

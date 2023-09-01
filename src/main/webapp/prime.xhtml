@@ -1,0 +1,38 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta charset="UTF-8"/>
+	<title>Primefaces</title>
+	<style>
+		.ui-state-disabled {
+			color: #d3d3d3 !important;
+		}
+		
+	</style>
+</h:head>
+
+<script>
+	PrimeFaces.locales['pt'] = {
+		monthNames : [ 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio',
+				'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro',
+				'Dezembro' ],
+		monthNamesShort : [ 'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul',
+				'Ago', 'Set', 'Out', 'Nov', 'Dez' ],
+		dayNamesMin : [ 'D', 'S', 'T', 'Q', 'Q', 'S', 'S' ],
+	};
+</script>
+
+<h:body>
+	<div class="field col-12 md:col-4">
+		<p:outputLabel for="disabledDD" value="Datas Válidas:" />
+		<p:datePicker id="disabledDD" value="#{dataBean.date}"
+			disabledDates="#{dataBean.invalidDates}" readonlyInput="true"
+			mindate="#{dataBean.minDate}" maxdate="#{dataBean.maxDate}"
+			locale="pt" />
+	</div>
+</h:body>
+
+</html>
